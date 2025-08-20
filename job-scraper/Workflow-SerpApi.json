@@ -1,5 +1,5 @@
 {
-  "name": "My workflow 2 google serpapi",
+  "name": "Workflow-SerpApi",
   "nodes": [
     {
       "parameters": {},
@@ -14,7 +14,7 @@
     },
     {
       "parameters": {
-        "url": "https://serpapi.com/search.json?engine=google_jobs&q=(Software+Developer OR Data+Engineer OR Analyst OR Full+Stack+Developer OR Software+Engineer)&location=New+York,+NY,United+States&api_key=b23962ca82fc7a3624b7b0316fcddc4eea08bed6ca560122363d1588b0a6f3b5",
+        "url": "https://serpapi.com/search.json?engine=google_jobs&q=(Software+Developer OR Data+Engineer OR Analyst OR Full+Stack+Developer OR Software+Engineer)&location=New+York,+NY,United+States&api_key=YOUR_SERPAPI_KEY",
         "allowUnauthorizedCerts": true,
         "options": {}
       },
@@ -33,17 +33,13 @@
         "operation": "append",
         "documentId": {
           "__rl": true,
-          "value": "1BnzRDjDEQ7_-D644XaK1g-S1XDc0qKIS3uDL5ktRS5w",
-          "mode": "list",
-          "cachedResultName": "n8n Job List",
-          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1BnzRDjDEQ7_-D644XaK1g-S1XDc0qKIS3uDL5ktRS5w/edit?usp=drivesdk"
+          "value": "YOUR_GOOGLE_SHEET_ID",
+          "mode": "list"
         },
         "sheetName": {
           "__rl": true,
-          "value": 1141511831,
-          "mode": "list",
-          "cachedResultName": "Serp",
-          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1BnzRDjDEQ7_-D644XaK1g-S1XDc0qKIS3uDL5ktRS5w/edit#gid=1141511831"
+          "value": "YOUR_SHEET_TAB_NAME_OR_GID",
+          "mode": "list"
         },
         "dataMode": "autoMapInputData",
         "options": {}
@@ -56,13 +52,7 @@
         240,
         -208
       ],
-      "alwaysOutputData": true,
-      "credentials": {
-        "googleSheetsOAuth2Api": {
-          "id": "czwk9s69KMdW2pPn",
-          "name": "Google Sheets account 2"
-        }
-      }
+      "alwaysOutputData": true
     },
     {
       "parameters": {
@@ -118,11 +108,6 @@
   "settings": {
     "executionOrder": "v1"
   },
-  "versionId": "97d28dcf-c68e-4b55-8090-3f25be515537",
-  "meta": {
-    "templateCredsSetupCompleted": true,
-    "instanceId": "c90a4e9798e1456ab7b1de079daff6677c23c8ceb1cff1d82006b2189e8289f5"
-  },
-  "id": "rmRx9jH5sCLTmHF1",
+  "id": "google-jobs-to-sheets",
   "tags": []
 }

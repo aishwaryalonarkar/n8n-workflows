@@ -1,5 +1,5 @@
 {
-  "name": "My workflow 2",
+  "name": "Workflow-remoteok",
   "nodes": [
     {
       "parameters": {},
@@ -53,17 +53,13 @@
         "operation": "append",
         "documentId": {
           "__rl": true,
-          "value": "1BnzRDjDEQ7_-D644XaK1g-S1XDc0qKIS3uDL5ktRS5w",
-          "mode": "list",
-          "cachedResultName": "n8n Job List",
-          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1BnzRDjDEQ7_-D644XaK1g-S1XDc0qKIS3uDL5ktRS5w/edit?usp=drivesdk"
+          "value": "YOUR_GOOGLE_SHEET_ID",
+          "mode": "list"
         },
         "sheetName": {
           "__rl": true,
-          "value": "gid=0",
-          "mode": "list",
-          "cachedResultName": "Sheet1",
-          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1BnzRDjDEQ7_-D644XaK1g-S1XDc0qKIS3uDL5ktRS5w/edit#gid=0"
+          "value": "YOUR_SHEET_TAB_NAME_OR_GID",
+          "mode": "list"
         },
         "dataMode": "autoMapInputData",
         "options": {}
@@ -76,13 +72,7 @@
         704,
         -208
       ],
-      "alwaysOutputData": true,
-      "credentials": {
-        "googleSheetsOAuth2Api": {
-          "id": "czwk9s69KMdW2pPn",
-          "name": "Google Sheets account 2"
-        }
-      }
+      "alwaysOutputData": true
     },
     {
       "parameters": {
@@ -173,11 +163,6 @@
   "settings": {
     "executionOrder": "v1"
   },
-  "versionId": "18012e37-c7e3-41c7-88e4-05d073bcf95c",
-  "meta": {
-    "templateCredsSetupCompleted": true,
-    "instanceId": "c90a4e9798e1456ab7b1de079daff6677c23c8ceb1cff1d82006b2189e8289f5"
-  },
-  "id": "Y063tIZmClx5ZN5E",
+  "id": "remoteok-jobs-to-sheets",
   "tags": []
 }
