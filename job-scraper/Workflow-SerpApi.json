@@ -1,0 +1,128 @@
+{
+  "name": "My workflow 2 google serpapi",
+  "nodes": [
+    {
+      "parameters": {},
+      "id": "fa4a8b10-6259-44f3-8d34-20706908f0bd",
+      "name": "Daily Trigger",
+      "type": "n8n-nodes-base.cron",
+      "typeVersion": 1,
+      "position": [
+        -416,
+        -208
+      ]
+    },
+    {
+      "parameters": {
+        "url": "https://serpapi.com/search.json?engine=google_jobs&q=(Software+Developer OR Data+Engineer OR Analyst OR Full+Stack+Developer OR Software+Engineer)&location=New+York,+NY,United+States&api_key=b23962ca82fc7a3624b7b0316fcddc4eea08bed6ca560122363d1588b0a6f3b5",
+        "allowUnauthorizedCerts": true,
+        "options": {}
+      },
+      "id": "1e0b8105-d70c-47bb-8e16-b7b9e59e0623",
+      "name": "Fetch Jobs",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 1,
+      "position": [
+        -192,
+        -208
+      ],
+      "alwaysOutputData": true
+    },
+    {
+      "parameters": {
+        "operation": "append",
+        "documentId": {
+          "__rl": true,
+          "value": "1BnzRDjDEQ7_-D644XaK1g-S1XDc0qKIS3uDL5ktRS5w",
+          "mode": "list",
+          "cachedResultName": "n8n Job List",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1BnzRDjDEQ7_-D644XaK1g-S1XDc0qKIS3uDL5ktRS5w/edit?usp=drivesdk"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": 1141511831,
+          "mode": "list",
+          "cachedResultName": "Serp",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1BnzRDjDEQ7_-D644XaK1g-S1XDc0qKIS3uDL5ktRS5w/edit#gid=1141511831"
+        },
+        "dataMode": "autoMapInputData",
+        "options": {}
+      },
+      "id": "e8e8cc48-1156-4ed2-ac8e-070f0a5d5f0a",
+      "name": "Log to Google Sheets",
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 3,
+      "position": [
+        240,
+        -208
+      ],
+      "alwaysOutputData": true,
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "czwk9s69KMdW2pPn",
+          "name": "Google Sheets account 2"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "jsCode": "// Extract jobs_results array from SerpAPI response\nlet jobs = items[0].json.jobs_results || [];\n\n// Map each job to a simple JSON format\nreturn jobs.map(job => {\n  const url =\n    (job.apply_options && job.apply_options[0] && job.apply_options[0].link) ||\n    job.apply_link || job.share_link || job.link || null;\n\n  return {\n    json: {\n      title: job.title,\n      company: job.company_name,\n      location: job.location,\n      url,                      // <-- standardized field name\n      date_posted: job.posted_at || (job.detected_extensions && job.detected_extensions.posted_at) || null,\n      job_id: job.job_id || null\n    }\n  };\n});\n"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        32,
+        -208
+      ],
+      "id": "bdfd8662-5448-4c92-8810-d9156826f036",
+      "name": "Code1"
+    }
+  ],
+  "pinData": {},
+  "connections": {
+    "Daily Trigger": {
+      "main": [
+        [
+          {
+            "node": "Fetch Jobs",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Fetch Jobs": {
+      "main": [
+        [
+          {
+            "node": "Code1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Code1": {
+      "main": [
+        [
+          {
+            "node": "Log to Google Sheets",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": true,
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "versionId": "97d28dcf-c68e-4b55-8090-3f25be515537",
+  "meta": {
+    "templateCredsSetupCompleted": true,
+    "instanceId": "c90a4e9798e1456ab7b1de079daff6677c23c8ceb1cff1d82006b2189e8289f5"
+  },
+  "id": "rmRx9jH5sCLTmHF1",
+  "tags": []
+}

@@ -1,0 +1,183 @@
+{
+  "name": "My workflow 2",
+  "nodes": [
+    {
+      "parameters": {},
+      "id": "eee0160d-f407-4930-a873-bee804616a58",
+      "name": "Daily Trigger",
+      "type": "n8n-nodes-base.cron",
+      "typeVersion": 1,
+      "position": [
+        -416,
+        -208
+      ]
+    },
+    {
+      "parameters": {
+        "url": "https://remoteok.com/api",
+        "options": {}
+      },
+      "id": "2283fe3c-6931-47b8-8703-bedd48d3c639",
+      "name": "Fetch Jobs",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 1,
+      "position": [
+        -192,
+        -208
+      ],
+      "alwaysOutputData": true
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "string": [
+            {
+              "value1": "={{$json[\"title\"]}}",
+              "operation": "contains",
+              "value2": "Engineer"
+            }
+          ]
+        }
+      },
+      "id": "d322c009-f10e-4008-b1e9-0ff3bc6ffb51",
+      "name": "Filter Jobs",
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 1,
+      "position": [
+        256,
+        -208
+      ]
+    },
+    {
+      "parameters": {
+        "operation": "append",
+        "documentId": {
+          "__rl": true,
+          "value": "1BnzRDjDEQ7_-D644XaK1g-S1XDc0qKIS3uDL5ktRS5w",
+          "mode": "list",
+          "cachedResultName": "n8n Job List",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1BnzRDjDEQ7_-D644XaK1g-S1XDc0qKIS3uDL5ktRS5w/edit?usp=drivesdk"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": "gid=0",
+          "mode": "list",
+          "cachedResultName": "Sheet1",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1BnzRDjDEQ7_-D644XaK1g-S1XDc0qKIS3uDL5ktRS5w/edit#gid=0"
+        },
+        "dataMode": "autoMapInputData",
+        "options": {}
+      },
+      "id": "94c57b5a-749e-4c81-bc6e-39f6c29cc2f8",
+      "name": "Log to Google Sheets",
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 3,
+      "position": [
+        704,
+        -208
+      ],
+      "alwaysOutputData": true,
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "czwk9s69KMdW2pPn",
+          "name": "Google Sheets account 2"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "jsCode": "// Function node example\nreturn items.map(item => {\n  return {\n    json: {\n      title: item.json.position || item.json.title,\n      company: item.json.company || \"\",\n      url: item.json.url || item.json.link,\n      date: item.json.date || item.json.posted_at,\n    }\n  }\n});\n\n"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        480,
+        -208
+      ],
+      "id": "cdf6bc60-a4e0-4d60-8237-b455794fd5d5",
+      "name": "Code"
+    },
+    {
+      "parameters": {
+        "jsCode": "// Parse RemoteOK response safely\nlet jobs = items[0].json; // n8n wraps the API response in items[0].json\n\nif (!Array.isArray(jobs)) {\n  jobs = [jobs]; // ensure array\n}\n\n// Remove first element (metadata)\njobs = jobs.slice(1);\n\nreturn jobs.map(job => {\n  return { \n    json: {\n      title: job.position,\n      company: job.company,\n      url: job.url,\n      date: job.date\n    }\n  };\n});\n"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        32,
+        -208
+      ],
+      "id": "4d8e721b-1229-4461-b741-4263dd79fcac",
+      "name": "Code1"
+    }
+  ],
+  "pinData": {},
+  "connections": {
+    "Daily Trigger": {
+      "main": [
+        [
+          {
+            "node": "Fetch Jobs",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Fetch Jobs": {
+      "main": [
+        [
+          {
+            "node": "Code1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Filter Jobs": {
+      "main": [
+        [
+          {
+            "node": "Code",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Code": {
+      "main": [
+        [
+          {
+            "node": "Log to Google Sheets",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Code1": {
+      "main": [
+        [
+          {
+            "node": "Filter Jobs",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": true,
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "versionId": "18012e37-c7e3-41c7-88e4-05d073bcf95c",
+  "meta": {
+    "templateCredsSetupCompleted": true,
+    "instanceId": "c90a4e9798e1456ab7b1de079daff6677c23c8ceb1cff1d82006b2189e8289f5"
+  },
+  "id": "Y063tIZmClx5ZN5E",
+  "tags": []
+}
